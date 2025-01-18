@@ -4,9 +4,9 @@ const authenticate = require("../middlewares/authMiddleware")
 
 const router = express.Router()
 
-router.post("/", authenticate, createReview)
+router.post("/",authenticate,  createReview)
 router.get("/", getAllReviews)
-router.delete("/:id", authenticate,deleteReview)
+router.delete("/:id", authenticate, deleteReview)
 
 
 module.exports = router

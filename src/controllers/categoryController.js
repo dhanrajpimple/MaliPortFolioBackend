@@ -1,9 +1,9 @@
 const Category = require("../models/Category")
 
 const createCategory = async(req, res)=>{
-    const {categoryName} = req.body;
+    const {CategoryName} = req.body;
     try {
-        const category = await Category.create({categoryName})
+        const category = await Category.create({CategoryName})
         res.status(201).json({message:"Category created successfully ", category})
     } catch (error) {
         res.status(500).json({message:error.message})

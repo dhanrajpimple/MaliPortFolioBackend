@@ -1,14 +1,9 @@
-const jwt  = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 
-const generateToken = (payload) =>{
-    return jwt.sign(payload, process.env.JWT_SECRET, {expirseIn:"15m"});
-}
+// Generate Refresh Token
+const generateRefreshToken = (payload) => {
+    return jwt.sign({token:payload}, process.env.JWT_SECRET, { expiresIn: "7d" });
+};
 
-const verifyToken = (payload)=>{
-    return jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn:"7d"})
-
-
-}
-
-module.exports = {generateToken, verifyToken}
+module.exports = {generateRefreshToken };

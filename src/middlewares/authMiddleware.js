@@ -1,19 +1,33 @@
-const jwt = require("jsonwebtoken")
+// Middleware to check authorization
+const jwt = require('jsonwebtoken'); 
 
-const authenticate = (req, res, next)=>{
-    const token = req.headers.authorization?.split("")[1];
-
-    if(!token){
-        return res.status(401).json({message:"Unauthorized"})
-    }
-
+const authMiddleware = (req, res, next) => {
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        req.user = decoded;
-        next()
-    } catch (error) {
-     res.status(401).json({message:"Forbidden"})        
-    }
-}
+        // Get the token from the Authorization header
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1]; // Extract the token
+      console.log(req.headers['authorization'])
+      console.log(token)
+        if (!token) {
+            // If no token, deny access
+            return res.status(401).json({ message: 'Unauthorized: Token not found' });
+        }
 
-module.exports = authenticate
+        // Verify the token
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+            if (err) {
+                return res.status(403).json({ message: 'Unauthorized: Invalid token' });
+            }
+
+            // Attach the user info to the request object
+            req.user = user;
+
+            // Continue to the next middleware or route handler
+            next();
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};
+
+module.exports = authMiddleware;

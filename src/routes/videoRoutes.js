@@ -1,13 +1,12 @@
 const express = require("express")
 const {createVideo, getAllVideos, deleteVideo} = require("../controllers/videoController")
-const authenticate = require("../middlewares/authMiddleware")
-
+const authMiddleware = require("../middlewares/authMiddleware")
 
 const router = express.Router()
 
-router.post("/", authenticate, createVideo)
-router.get("/", getAllVideos)
-router.delete("/:id", authenticate,deleteVideo)
+router.post("/", authMiddleware,createVideo)
+router.get("/",getAllVideos)
+router.delete("/:id",authMiddleware,  deleteVideo)
 
 
 module.exports = router

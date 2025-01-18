@@ -1,5 +1,6 @@
 const express = require("express")
 const dotenv = require("dotenv")
+const cors = require('cors')
 const connectDB = require("./config/db")
 const authRoutes = require("./routes/authRoutes")
 const contactRoutes = require('./routes/contactRoutes')
@@ -16,6 +17,13 @@ connectDB()
 const app = express()
 
 app.use(express.json())
+
+app.use(
+    cors({
+      origin: 'http://localhost:5173', // Replace with your frontend's URL
+      credentials: true, // Allow cookies to be sent with requests
+    })
+  );
 
 app.use("/api/auth", authRoutes)
 app.use("/api/contact", contactRoutes)

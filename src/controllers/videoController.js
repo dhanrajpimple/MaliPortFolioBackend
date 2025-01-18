@@ -22,6 +22,7 @@ const getAllVideos = async(req, res)=>{
 }
 
 const deleteVideo = async(req, res)=>{
+    console.log(req)
     const {id} = req.params;
     try {
         await Video.findByIdAndDelete(id)

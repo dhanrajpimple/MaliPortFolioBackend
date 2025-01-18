@@ -6,9 +6,10 @@ const createContact = async (req, res)=>{
     const {name, email, phone, message} = req.body;
     try {
         const contact = await Contact.create({name, email, phone, message})
-        await sendEmail(email, "Contact Form Submitted", "Thank you for contacting us. We will get back to you soon.")
-        await sendEmai(process.env.ADMIN_EMAIL, "New Contact", `contact from ${name} : ${message}`)
-        res.status(201).json({message:"contact created succesfully"})
+        // await sendEmail(email, "Contact Form Submitted", "Thank you for contacting us. We will get back to you soon.")
+        // await sendEmai(process.env.ADMIN_EMAIL, "New Contact", `contact from ${name} : ${message}`)
+        
+        res.status(201).json({message:"contact created succesfully", success:true})
     } catch (error) {
         res.status(500).json({message:error.message})
     }
