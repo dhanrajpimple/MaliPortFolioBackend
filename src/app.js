@@ -20,7 +20,7 @@ app.use(express.json())
 
 app.use(
     cors({
-      origin: 'http://localhost:5173', // Replace with your frontend's URL
+      origin: 'https://backend-mali.vercel.app/', // Replace with your frontend's URL
       credentials: true, // Allow cookies to be sent with requests
     })
   );
