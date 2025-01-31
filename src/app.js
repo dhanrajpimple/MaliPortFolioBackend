@@ -19,11 +19,16 @@ const app = express()
 app.use(express.json())
 
 app.use(
-    cors({
-      origin: 'https://backend-mali.vercel.app/', // Replace with your frontend's URL
-      credentials: true, // Allow cookies to be sent with requests
-    })
-  );
+  cors({
+      origin: '*', // Allow all origins
+      methods: 'GET,POST,PUT,DELETE,OPTIONS', // Allow all methods
+      allowedHeaders: 'Content-Type,Authorization', // Allow all headers
+      credentials: true, // Allow cookies (Only works with specific origins, '*' won't work here)
+  })
+);
+
+// Handle preflight requests
+app.options('*', cors());
 
 app.use("/api/auth", authRoutes)
 app.use("/api/contact", contactRoutes)
