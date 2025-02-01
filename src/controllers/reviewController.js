@@ -1,10 +1,10 @@
 const Review = require("../models/Review")
 
 const createReview = async(req, res)=>{
-    const {customerName, message, star, createVideoCategory} = req.body;
+    const {customerName, message, star, Category} = req.body;
 
     try {
-        const review = await Review.create({customerName, star, message, createVideoCategory})
+        const review = await Review.create({customerName, star, message, Category})
         res.status(201).json({message:"Review created successfully"})
     } catch (error) {
         res.status(500).json({message:error.message})

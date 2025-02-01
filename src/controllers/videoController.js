@@ -3,23 +3,25 @@ const Video = require("../models/Video")
 
 
 const createVideo = async(req, res)=>{
-    const {videoLink, videoName, videoAlt, imageLink, imageAlt, refCategary} = req.body;
+    const {videoLink, videoName, videoAlt, imageLink, imageAlt, Category} = req.body;
     try {
-        const video = await Video.create({videoLink, videoName, videoAlt, imageLink, imageAlt, refCategary})
+        const video = await Video.create({videoLink, videoName, videoAlt, imageLink, imageAlt, Category})
         res.status(201).json({message:"Video created Successfully", video})
     } catch (error) {
         res.status(500).json({message:error.message})
     }
 }
 
-const getAllVideos = async(req, res)=>{
+const getAllVideos = async (req, res) => {
     try {
-        const video = await Video.find();
-        res.status(200).json({video})
+      const videos = await Video.find();
+
+      res.status(200).json({ videos });
     } catch (error) {
-        res.status(500).json({message:error.message})
+      console.error("Error fetching videos:", error);
+      res.status(500).json({ message: error.message });
     }
-}
+  };
 
 const deleteVideo = async(req, res)=>{
     console.log(req)

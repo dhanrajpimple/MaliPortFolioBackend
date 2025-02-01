@@ -13,9 +13,8 @@ const reviewSchema = new mongoose.Schema({
     message:{
         type:String
     },
-    videoCategory:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Category"
+    Category:{
+        type:String
     }
 })
 

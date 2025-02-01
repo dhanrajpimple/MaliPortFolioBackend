@@ -18,9 +18,8 @@ const videoSchema = new mongoose.Schema({
     imageAlt:{
         type:String
     },
-    refCategory:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Category"
+    Category:{
+        type:String
     }
 })
 
