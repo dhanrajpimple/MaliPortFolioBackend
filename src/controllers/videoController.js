@@ -2,15 +2,35 @@ const Video = require("../models/Video")
 
 
 
-const createVideo = async(req, res)=>{
-    const {videoLink, videoName, videoAlt, imageLink, imageAlt, Category} = req.body;
+const createVideo = async (req, res) => {
+    const { videoLink, videoName, videoAlt } = req.body;
+
     try {
-        const video = await Video.create({videoLink, videoName, videoAlt, imageLink, imageAlt, Category})
-        res.status(201).json({message:"Video created Successfully", video})
+        // Extract YouTube Video ID from the URL
+        const videoId = extractYouTubeID(videoLink);
+        if (!videoId) {
+            return res.status(400).json({ message: "Invalid YouTube video link" });
+        }
+
+        // Generate the YouTube Thumbnail URL
+        const imageLink = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+        // Create and store the video with the thumbnail link
+        const video = await Video.create({ videoLink, videoName, videoAlt, imageLink });
+
+        res.status(201).json({ message: "Video created successfully", video });
     } catch (error) {
-        res.status(500).json({message:error.message})
+        res.status(500).json({ message: error.message });
     }
-}
+};
+
+// Function to extract YouTube video ID from different possible URL formats
+const extractYouTubeID = (url) => {
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/[^\/]+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+};
+
 
 const getAllVideos = async (req, res) => {
     try {
@@ -24,7 +44,7 @@ const getAllVideos = async (req, res) => {
   };
 
 const deleteVideo = async(req, res)=>{
-    console.log(req)
+
     const {id} = req.params;
     try {
         await Video.findByIdAndDelete(id)

@@ -6,8 +6,7 @@ const authMiddleware = (req, res, next) => {
         // Get the token from the Authorization header
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1]; // Extract the token
-      console.log(req.headers['authorization'])
-      console.log(token)
+    
         if (!token) {
             // If no token, deny access
             return res.status(401).json({ message: 'Unauthorized: Token not found' });

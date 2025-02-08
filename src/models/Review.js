@@ -13,7 +13,10 @@ const reviewSchema = new mongoose.Schema({
     message:{
         type:String
     },
-    Category:{
+    imageUrl:{
+        type:String
+    },
+    imagePublicId: {
         type:String
     }
 })

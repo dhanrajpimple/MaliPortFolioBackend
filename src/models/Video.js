@@ -15,10 +15,7 @@ const videoSchema = new mongoose.Schema({
     imageLink:{
         type:String
     },
-    imageAlt:{
-        type:String
-    },
-    Category:{
+    imagePublicId:{
         type:String
     }
 })
