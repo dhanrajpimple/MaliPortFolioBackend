@@ -1,11 +1,14 @@
 const Review = require("../models/Review")
 const dotenv = require("dotenv")
+const { cloudinary } = require("../config/cloudinary");
 dotenv.config()
 const createReview = async (req, res) => {
-    const { customerName, message, star, imageUrl, imagePublicId } = req.body;
+    const { customerName, message, star } = req.body;
 
     try {
         // Create review in MongoDB
+        const imageUrl = req.file.path; // Cloudinary URL
+        const imagePublicId = req.file.filename; // Cloudinary public ID (automatically generated)
         const review = await Review.create({ customerName, star, message, imageUrl, imagePublicId });
 
         // Prepare data for Supabase
@@ -54,8 +57,10 @@ const getAllReviews = async(req, res)=>{
 const deleteReview = async(req, res)=>{
     const {id} = req.params;
     try{
+        const review = await Review.findById(id);
+       
+        await cloudinary.uploader.destroy(review.imagePublicId);
         await Review.findByIdAndDelete(id)
-
         const supabaseResponse = await fetch('https://gcdbzczwturdhvfgoowm.supabase.co/rest/v1/rpc/deletedataby_id', {
             method: 'POST',
             headers: {
